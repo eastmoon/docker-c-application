@@ -118,6 +118,7 @@ goto end
     echo      dev               Develop mode.
     echo      build             Build application.
     echo      run               Run application.
+    echo      test              Build & Run test application.
     echo.
     echo Run 'cli [COMMAND] --help' for more information on a command.
     goto end
@@ -127,8 +128,8 @@ goto end
 :cli-dev-prepare (
     echo ^> Initial cache
     @rem Initial cache
-    IF NOT EXIST cache\build (
-        mkdir cache\build
+    IF NOT EXIST cache (
+        mkdir cache
     )
 
     echo ^> Build image
@@ -145,8 +146,8 @@ goto end
     docker run -ti --rm^
         -v %cd%/conf/cmake/release:/repo^
         -v %cd%/app/:/repo/app^
-        -v %cd%/cache/build:/repo/build^
-        -v %cd%/cache/publish:/repo/publish^
+        -v %cd%/cache/release/build:/repo/build^
+        -v %cd%/cache/release/publish:/repo/publish^
         --name complier-%PROJECT_NAME%^
         complier:%PROJECT_NAME% %*
     goto end
@@ -162,9 +163,6 @@ goto end
 )
 
 :cli-dev-args (
-    for %%p in (%*) do (
-        if "%%p"=="--dev" ( set DEVELOPER=1 )
-    )
     goto end
 )
 
@@ -187,9 +185,6 @@ goto end
 )
 
 :cli-build-args (
-    for %%p in (%*) do (
-        if "%%p"=="--dev" ( set DEVELOPER=1 )
-    )
     goto end
 )
 
@@ -212,9 +207,6 @@ goto end
 )
 
 :cli-run-args (
-    for %%p in (%*) do (
-        if "%%p"=="--dev" ( set DEVELOPER=1 )
-    )
     goto end
 )
 
@@ -225,6 +217,56 @@ goto end
     echo.
     goto end
 )
+
+:: ------------------- Command "test" mathod -------------------
+
+:cli-test-docker-run (
+    docker rm -f complier-%PROJECT_NAME%
+    docker run -ti --rm^
+        -v %cd%/conf/cmake/test:/repo^
+        -v %cd%/test/:/repo/test^
+        -v %cd%/app/:/repo/test/app^
+        -v %cd%/cache/test/build:/repo/build^
+        -v %cd%/cache/test/publish:/repo/publish^
+        --name complier-%PROJECT_NAME%^
+        complier:%PROJECT_NAME% %*
+    goto end
+)
+
+:cli-test (
+    call :cli-dev-prepare
+
+    echo ^> Startup docker container instance
+    IF %TEST_MODE% == 0 (
+        call :cli-test-docker-run
+    )
+    goto end
+)
+
+:cli-test-args (
+    set TEST_MODE=1
+    for %%p in (%*) do (
+        if "%%p"=="--dev" ( set TEST_MODE=0 )
+        if "%%p"=="--all" ( set TEST_MODE=1 )
+        if "%%p"=="--warn" ( set TEST_MODE=2 )
+        if "%%p"=="--error" ( set TEST_MODE=3 )
+    )
+    goto end
+)
+
+:cli-test-help (
+    echo Build & Run test application.
+    echo Options only one last one will work.
+    echo.
+    echo Options:
+    echo      --dev             Go into container.
+    echo      --all             [DEFAULT] Show all test report.
+    echo      --warn            Show test report with warn message.
+    echo      --error           Show test report with error message.
+    echo.
+    goto end
+)
+
 
 :: ------------------- End method-------------------
 
