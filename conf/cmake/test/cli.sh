@@ -5,4 +5,5 @@ set -e
 source ./shell/config.sh
 
 # Execute script
-source ./shell/${1}.sh
+source ./shell/build.sh
+source ./shell/run.sh ${@}
