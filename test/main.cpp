@@ -4,3 +4,4 @@
 #include <boost/test/included/unit_test.hpp>
 // 測試模組
 #include "./case/test_1.cpp"
+#include "./case/test_2.cpp"

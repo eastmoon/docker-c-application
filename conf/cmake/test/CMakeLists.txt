@@ -16,8 +16,8 @@ message("CMAKE_RUNTIME_OUTPUT_DIRECTORY= ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 file(
     GLOB
     includes_library
-    "${APPLICATION_SOURCE_DIR}/classes/*.cpp"
-    "${APPLICATION_SOURCE_DIR}/classes/*.h"
+    "${APPLICATION_SOURCE_DIR}/app/*/*.cpp"
+    "${APPLICATION_SOURCE_DIR}/app/*/*.h"
 )
 
 # Add source code in project
