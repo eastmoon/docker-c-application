@@ -140,17 +140,23 @@ goto end
     goto end
 )
 
-:cli-dev (
-    call :cli-dev-prepare
-
-    echo ^> Startup docker container instance
+:cli-dev-docker-run (
+    docker rm -f complier-%PROJECT_NAME%
     docker run -ti --rm^
-        -v %cd%/conf/cmake/:/repo^
+        -v %cd%/conf/cmake/release:/repo^
         -v %cd%/app/:/repo/app^
         -v %cd%/cache/build:/repo/build^
         -v %cd%/cache/publish:/repo/publish^
         --name complier-%PROJECT_NAME%^
-        complier:%PROJECT_NAME%
+        complier:%PROJECT_NAME% %*
+    goto end
+)
+
+:cli-dev (
+    call :cli-dev-prepare
+
+    echo ^> Startup docker container instance
+    call :cli-dev-docker-run
 
     goto end
 )
@@ -175,13 +181,7 @@ goto end
     call :cli-dev-prepare
 
     echo ^> Startup docker container instance
-    docker run -ti --rm^
-        -v %cd%/conf/cmake/:/repo^
-        -v %cd%/app/:/repo/app^
-        -v %cd%/cache/build:/repo/build^
-        -v %cd%/cache/publish:/repo/publish^
-        --name complier-%PROJECT_NAME%^
-        complier:%PROJECT_NAME% bash -l -c "source cli.sh build"
+    call :cli-dev-docker-run bash -l -c "source cli.sh build"
 
     goto end
 )
@@ -206,13 +206,7 @@ goto end
     call :cli-dev-prepare
 
     echo ^> Startup docker container instance
-    docker run -ti --rm^
-        -v %cd%/conf/cmake/:/repo^
-        -v %cd%/app/:/repo/app^
-        -v %cd%/cache/build:/repo/build^
-        -v %cd%/cache/publish:/repo/publish^
-        --name complier-%PROJECT_NAME%^
-        complier:%PROJECT_NAME% bash -l -c "source cli.sh run"
+    call :cli-dev-docker-run bash -l -c "source cli.sh run"
 
     goto end
 )

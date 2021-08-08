@@ -28,7 +28,7 @@ dockerw.bat [dev | build | run | test]
 
 + 開發環境
 
-依據 Docker 啟動開發環境，測試開發環境指令，結束請使用 "Ctrl + Z"
+依據 Docker 啟動開發環境，測試開發環境指令，結束請使用 "Ctrl + Z" 或 "exit" 脫離容器
 
 ```
 dockerw dev
@@ -53,7 +53,7 @@ dockerw run
 + 測試專案
 
 ```
-dockerw test
+dockerw test [--all | --warn | --error]
 ```
 
 ## 參考
