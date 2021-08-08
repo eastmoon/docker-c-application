@@ -244,10 +244,10 @@ goto end
         call :cli-test-docker-run bash -l -c "source cli.sh --log_level=all --log_format=CLF"
     )
     IF %TEST_MODE% == 2 (
-        call :cli-test-docker-run bash -l -c "source cli.sh --log_level=error --log_format=CLF"
+        call :cli-test-docker-run bash -l -c "source cli.sh --log_level=warning --log_format=CLF"
     )
     IF %TEST_MODE% == 3 (
-        call :cli-test-docker-run bash -l -c "source cli.sh --log_level=warning --log_format=CLF"
+        call :cli-test-docker-run bash -l -c "source cli.sh --log_level=error --log_format=CLF"
     )
     goto end
 )
