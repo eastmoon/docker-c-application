@@ -118,7 +118,7 @@ goto end
     echo      dev               Develop mode.
     echo      build             Build application.
     echo      run               Run application.
-    echo      test              Build & Run test application.
+    echo      test              Build and Run test application.
     echo.
     echo Run 'cli [COMMAND] --help' for more information on a command.
     goto end
@@ -264,7 +264,7 @@ goto end
 )
 
 :cli-test-help (
-    echo Build & Run test application.
+    echo Build and Run test application.
     echo Options only one last one will work.
     echo.
     echo Options:
