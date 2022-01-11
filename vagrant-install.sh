@@ -1,19 +1,23 @@
-# Install common tools
-apt-get update -y && \
-apt-get install -y  --no-install-recommends \
+# Install Docker
+# Ref : https://docs.docker.com/engine/install/ubuntu/
+sudo apt-get update -y && \
+sudo apt-get install -y \
     apt-transport-https \
-    software-properties-common \
     ca-certificates \
-    libcurl4 \
-    wget \
-    rsync
+    curl \
+    gnupg-agent \
+    software-properties-common
 
-# Install complier tools
-apt-get update -y && \
-apt-get install -y  --no-install-recommends \
-    build-essential \
-    gcc \
-    g++ \
-    python-dev \
-    make \
-    cmake
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update -y && \
+sudo apt-get install -y \
+    docker-ce \
+    docker-ce-cli \
+    docker-compose \
+    containerd.io
